@@ -93,7 +93,6 @@ def shortest_path(source, target):
     """
     if source == target: return True
     num_explored = 0
-
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
     frontier.add(start)
@@ -113,7 +112,9 @@ def shortest_path(source, target):
         
         for movie_id, person_id in neighbors_for_person(node.state):
             if not frontier.contains_state(person_id) and person_id not in explored:
-                if node.state == target:
+                if node.state == target or person_id == target:
+                    person_id = target
+                    if person_id == target: node = Node(state=person_id, parent=node, action=movie_id)
                     solution = []
                     while node.parent is not None:
                         solution.insert(0, (node.action, node.state))
